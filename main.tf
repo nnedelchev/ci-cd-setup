@@ -11,7 +11,6 @@ provider "kind" {}
 
       node {
         role = "control-plane"
-
         kubeadm_config_patches = [
             "kind: InitConfiguration\nnodeRegistration:\n  kubeletExtraArgs:\n    node-labels: \"ingress-ready=true\"\n"
         ]
@@ -20,6 +19,13 @@ provider "kind" {}
             host_port      = 80
             listen_address  = "0.0.0.0"
         }
+
+        extra_port_mappings {
+            container_port = 8080
+            host_port      = 32222
+            listen_address  = "0.0.0.0"
+        }
+
         extra_port_mappings {
             container_port = 443
             host_port      = 443
@@ -30,7 +36,9 @@ provider "kind" {}
       node {
         role = "worker"
       }
-
+      node {
+        role = "worker"
+      }
       node {
         role = "worker"
       }
